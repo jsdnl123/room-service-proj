@@ -1,17 +1,5 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { styled } from "@mui/system";
 import React, { useState } from "react";
+import "./App.scss";
 
 interface RoomInfo {
   roomNumber: string;
@@ -19,28 +7,6 @@ interface RoomInfo {
   checkInDate: string;
   checkOutDate: string;
 }
-
-const StyledButton = styled(Button)({
-  backgroundColor: "#1976d2",
-  "&:hover": {
-    backgroundColor: "#1565c0",
-  },
-});
-
-const StyledPaper = styled(Paper)({
-  backgroundColor: "#f8dfff",
-  color: "#0d47a1",
-  borderRadius: "12px",
-});
-
-const StickyHeader = styled(Box)({
-  position: "sticky",
-  top: 0,
-  zIndex: 1,
-  backgroundColor: "#fff",
-  padding: "10px 0",
-  borderBottom: "1px solid #ddd",
-});
 
 const App: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -53,10 +19,7 @@ const App: React.FC = () => {
   });
   const [error, setError] = useState("");
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
+  const handleClickOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     setError("");
@@ -86,113 +49,66 @@ const App: React.FC = () => {
   };
 
   return (
-    <Box
-      height="100vh"
-      width="100vh"
-      display="flex"
-      textAlign="center"
-      flexDirection="column"
-    >
-      <StickyHeader>
-        <Typography variant="h4" gutterBottom fontFamily="sans-serif">
-          Room Management System
-        </Typography>
-        <Box display="flex" justifyContent="flex-end" mb={2}>
-          <StyledButton variant="contained" onClick={handleClickOpen}>
+    <div className="app">
+      <header className="sticky-header">
+        {/* <h1>Room Management System</h1> */}
+        <h1>고시원 관리 시스템</h1>
+        <div className="add-button-container">
+          <button className="styled-button" onClick={handleClickOpen}>
             입실 정보 추가
-          </StyledButton>
-        </Box>
-      </StickyHeader>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>입실 정보 입력</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            name="roomNumber"
-            label="방 번호"
-            type="text"
-            fullWidth
-            value={tempRoomInfo.roomNumber}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="occupants"
-            label="입실 인원"
-            type="number"
-            fullWidth
-            value={tempRoomInfo.occupants}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="checkInDate"
-            label="입실 날짜"
-            type="date"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-            value={tempRoomInfo.checkInDate}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="checkOutDate"
-            label="퇴실 날짜"
-            type="date"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-            value={tempRoomInfo.checkOutDate}
-            onChange={handleChange}
-          />
-          {error && <Typography color="error">{error}</Typography>}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            취소
-          </Button>
-          <Button onClick={handleSubmit} color="primary">
-            추가
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Box height="calc(100vh - 200px)" overflow="auto">
-        <Grid container spacing={2}>
-          {roomInfos.map((roomInfo, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Box mt={4}>
-                <StyledPaper elevation={3}>
-                  <Box p={2}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12}>
-                        <Typography variant="h6">
-                          방 번호: {roomInfo.roomNumber}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant="h6">
-                          입실 인원: {roomInfo.occupants}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant="h6">
-                          입실 날짜: {roomInfo.checkInDate}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant="h6">
-                          퇴실 날짜: {roomInfo.checkOutDate}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </StyledPaper>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </Box>
+          </button>
+        </div>
+      </header>
+
+      {open && (
+        <div className="dialog">
+          <div className="dialog-content">
+            <h2>입실 정보 입력</h2>
+            <input
+              name="roomNumber"
+              placeholder="방 번호"
+              value={tempRoomInfo.roomNumber}
+              onChange={handleChange}
+            />
+            <input
+              name="occupants"
+              type="number"
+              placeholder="입실 인원"
+              value={tempRoomInfo.occupants}
+              onChange={handleChange}
+            />
+            <input
+              name="checkInDate"
+              type="date"
+              value={tempRoomInfo.checkInDate}
+              onChange={handleChange}
+            />
+            <input
+              name="checkOutDate"
+              type="date"
+              value={tempRoomInfo.checkOutDate}
+              onChange={handleChange}
+            />
+            {error && <p className="error-text">{error}</p>}
+            <div className="dialog-actions">
+              <button onClick={handleClose}>취소</button>
+              <button onClick={handleSubmit}>추가</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="room-list">
+        {roomInfos.map((roomInfo, index) => (
+          <div className="room-card" key={index}>
+            <p>방 번호: {roomInfo.roomNumber}</p>
+            <p>입실 인원: {roomInfo.occupants}</p>
+            <p>입실 날짜: {roomInfo.checkInDate}</p>
+            <p>퇴실 날짜: {roomInfo.checkOutDate}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
