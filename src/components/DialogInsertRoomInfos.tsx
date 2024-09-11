@@ -54,9 +54,9 @@ const DialogInsertRoomInfos = (props: DialogInsertProps) => {
           />
         </div>
         <div className="dialog-sub-content">
-          <span style={{ marginRight: '1rem' }}>방세 입금 날짜</span>
+          <span style={{ marginRight: '1rem' }}>입금 날짜</span>
           <input
-            name="checkOutDate"
+            name="paymentDate"
             type="date"
             value={roomInfo.paymentDate ?? ''}
             onChange={handleChange}

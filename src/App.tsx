@@ -19,6 +19,7 @@ const App: React.FC = () => {
     occupants: 0,
     checkInDate: '',
     checkOutDate: '',
+    paymentDate: '',
   });
   const [error, setError] = useState('');
 
@@ -86,6 +87,7 @@ const App: React.FC = () => {
             <p>입실 인원: {roomInfo.occupants}</p>
             <p>입실 날짜: {roomInfo.checkInDate}</p>
             <p>퇴실 날짜: {roomInfo.checkOutDate}</p>
+            <p>입금 날짜: {roomInfo.paymentDate}</p>
           </div>
         ))}
       </div>
