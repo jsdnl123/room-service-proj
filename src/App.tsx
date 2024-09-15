@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import './App.scss';
-import DialogInsertRoomInfos from './components/DialogInsertRoomInfos';
-import { hasEmptyValue } from './utils';
+import React, { useState } from "react";
+import "./App.scss";
+import DialogInsertRoomInfos from "./components/DialogInsertRoomInfos";
+import { hasEmptyValue } from "./utils";
+import { useRoomInfoStore } from "./store/stores/roomInfoStore";
 
 export interface RoomInfo {
   roomNumber: string;
@@ -13,20 +14,21 @@ export interface RoomInfo {
 
 const App: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const [roomInfos, setRoomInfos] = useState<RoomInfo[]>([]);
+  const { roomInfos, setRoomInfos } = useRoomInfoStore();
+  // const [roomInfos, setRoomInfos] = useState<RoomInfo[]>([]);
   const [roomInfo, setRoomInfo] = useState<RoomInfo>({
-    roomNumber: '',
+    roomNumber: "",
     occupants: 0,
-    checkInDate: '',
-    checkOutDate: '',
-    paymentDate: '',
+    checkInDate: "",
+    checkOutDate: "",
+    paymentDate: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    setError('');
+    setError("");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,23 +40,23 @@ const App: React.FC = () => {
 
   const handleSubmit = () => {
     if (roomInfos.some((room) => room.roomNumber === roomInfo.roomNumber)) {
-      setError('방 번호가 이미 존재합니다.');
+      setError("방 번호가 이미 존재합니다.");
       return;
     }
     if (hasEmptyValue(roomInfo)) {
-      setError('빈 값이 존재합니다!');
+      setError("빈 값이 존재합니다!");
       return;
     }
 
     setRoomInfos([...roomInfos, roomInfo]);
     setOpen(false);
     setRoomInfo({
-      roomNumber: '',
+      roomNumber: "",
       occupants: 0,
-      checkInDate: '',
-      checkOutDate: '',
+      checkInDate: "",
+      checkOutDate: "",
     });
-    setError('');
+    setError("");
   };
 
   return (
