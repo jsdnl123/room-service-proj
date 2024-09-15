@@ -29,9 +29,10 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
+          personal_token: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
           external_repository: jsdnl123/jsdnl123.github.io
           publish_branch: main
           publish_dir: ./dist
           user_name: "Will" # 본인의 GitHub 사용자명 또는 원하는 이름
           user_email: "dnlwlstp123@gmail.com" # 본인의 이메일 주소
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
+          # deploy_key: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
