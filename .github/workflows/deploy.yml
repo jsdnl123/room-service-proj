@@ -1,0 +1,37 @@
+# .github/workflows/deploy.yml
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          external_repository: jsdnl123/jsdnl123.github.io
+          publish_branch: main
+          publish_dir: ./dist
+          user_name: "Will" # 본인의 GitHub 사용자명 또는 원하는 이름
+          user_email: "dnlwlstp123@gmail.com" # 본인의 이메일 주소
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
