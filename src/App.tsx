@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import "./App.scss";
+import React, { useLayoutEffect, useState } from "react";
+import styles from "./App.module.scss";
 import DialogInsertRoomInfos from "./components/DialogInsertRoomInfos";
 import { hasEmptyValue } from "./utils";
 import { useRoomInfoStore } from "./store/stores/roomInfoStore";
+import classNames from "classnames/bind";
 
 export interface RoomInfo {
   roomNumber: string;
@@ -13,6 +14,7 @@ export interface RoomInfo {
 }
 
 const App: React.FC = () => {
+  const cn = classNames.bind(styles);
   const [open, setOpen] = useState(false);
   const { roomInfos, setRoomInfos } = useRoomInfoStore();
   // const [roomInfos, setRoomInfos] = useState<RoomInfo[]>([]);
@@ -59,19 +61,24 @@ const App: React.FC = () => {
     setError("");
   };
 
+  useLayoutEffect(() => {
+    localStorage.getItem("roomInfo-storage");
+  }, []);
   return (
-    <div className="app">
-      <div className="header">
-        <div className="header-title">
-          <h1>고시원 관리 시스템</h1>
+    <div className={cn("app")}>
+      <div className={cn("header")}>
+        <div className={cn("header-title")}>
+          <h1>고시 POS </h1>
         </div>
-        <div className="button-container">
-          <button className="styled-button" onClick={handleClickOpen}>
+        <div className={cn("button-container")}>
+          <button className={cn("styled-button")} onClick={handleClickOpen}>
             입실 정보 추가
           </button>
         </div>
       </div>
-
+      <div className={cn("layer-navigation")}>
+        {/* TODO: floor component 만들어서 넣기  */}
+      </div>
       {open && (
         <DialogInsertRoomInfos
           error={error}
@@ -81,10 +88,10 @@ const App: React.FC = () => {
           roomInfo={roomInfo}
         />
       )}
-
-      <div className="room-list">
+      {/* TODO: RoomCard Componenet로 바꾸기 */}
+      <div className={cn("room-list")}>
         {roomInfos.map((roomInfo, index) => (
-          <div className="room-card" key={index}>
+          <div className={cn("room-card")} key={index}>
             <p>방 번호: {roomInfo.roomNumber}</p>
             <p>입실 인원: {roomInfo.occupants}</p>
             <p>입실 날짜: {roomInfo.checkInDate}</p>
