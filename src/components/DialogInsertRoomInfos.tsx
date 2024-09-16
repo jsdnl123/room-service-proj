@@ -1,5 +1,5 @@
-import { RoomInfo } from '../App';
-import '../App.scss';
+import { RoomInfo } from "../App";
+import "../App.module.scss";
 
 interface DialogInsertProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,7 +17,7 @@ const DialogInsertRoomInfos = (props: DialogInsertProps) => {
       <div className="dialog-content">
         <h2>입실 정보 입력</h2>
         <div className="dialog-sub-content">
-          <span style={{ marginRight: '1rem' }}>방 번호</span>
+          <span style={{ marginRight: "1rem" }}>방 번호</span>
           <input
             name="roomNumber"
             placeholder="방 번호"
@@ -26,7 +26,7 @@ const DialogInsertRoomInfos = (props: DialogInsertProps) => {
           />
         </div>
         <div className="dialog-sub-content">
-          <span style={{ marginRight: '1rem' }}>입실 인원</span>
+          <span style={{ marginRight: "1rem" }}>입실 인원</span>
           <input
             name="occupants"
             type="number"
@@ -36,7 +36,7 @@ const DialogInsertRoomInfos = (props: DialogInsertProps) => {
           />
         </div>
         <div className="dialog-sub-content">
-          <span style={{ marginRight: '1rem' }}>입실 날짜</span>
+          <span style={{ marginRight: "1rem" }}>입실 날짜</span>
           <input
             name="checkInDate"
             type="date"
@@ -45,7 +45,7 @@ const DialogInsertRoomInfos = (props: DialogInsertProps) => {
           />
         </div>
         <div className="dialog-sub-content">
-          <span style={{ marginRight: '1rem' }}>퇴실 날짜</span>
+          <span style={{ marginRight: "1rem" }}>퇴실 날짜</span>
           <input
             name="checkOutDate"
             type="date"
@@ -54,11 +54,11 @@ const DialogInsertRoomInfos = (props: DialogInsertProps) => {
           />
         </div>
         <div className="dialog-sub-content">
-          <span style={{ marginRight: '1rem' }}>입금 날짜</span>
+          <span style={{ marginRight: "1rem" }}>입금 날짜</span>
           <input
             name="paymentDate"
             type="date"
-            value={roomInfo.paymentDate ?? ''}
+            value={roomInfo.paymentDate ?? ""}
             onChange={handleChange}
           />
         </div>
