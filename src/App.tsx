@@ -33,7 +33,11 @@ const App: React.FC = () => {
     setError("");
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     setRoomInfo({
       ...roomInfo,
       [e.target.name]: e.target.value,
@@ -62,7 +66,8 @@ const App: React.FC = () => {
   };
 
   useLayoutEffect(() => {
-    localStorage.getItem("roomInfo-storage");
+    const roomInfo = localStorage.getItem("roomInfo-storage");
+    console.log(roomInfo);
   }, []);
   return (
     <div className={cn("app")}>
@@ -74,10 +79,10 @@ const App: React.FC = () => {
           <button className={cn("styled-button")} onClick={handleClickOpen}>
             입실 정보 추가
           </button>
+          {/* <button className={cn("styled-button")} onClick={handleClickOpen}>
+            고객 정보 추가
+          </button> */}
         </div>
-      </div>
-      <div className={cn("layer-navigation")}>
-        {/* TODO: floor component 만들어서 넣기  */}
       </div>
       {open && (
         <DialogInsertRoomInfos
@@ -88,6 +93,11 @@ const App: React.FC = () => {
           roomInfo={roomInfo}
         />
       )}
+      <div className={cn("layer-navigation")}>
+        {/* TODO: floor component 만들어서 넣기  */}
+        <div>1층</div>
+      </div>
+
       {/* TODO: RoomCard Componenet로 바꾸기 */}
       <div className={cn("room-list")}>
         {roomInfos.map((roomInfo, index) => (
@@ -97,6 +107,8 @@ const App: React.FC = () => {
             <p>입실 날짜: {roomInfo.checkInDate}</p>
             <p>퇴실 날짜: {roomInfo.checkOutDate}</p>
             <p>입금 날짜: {roomInfo.paymentDate}</p>
+            <button>수정</button>
+            <button>삭제</button>
           </div>
         ))}
       </div>

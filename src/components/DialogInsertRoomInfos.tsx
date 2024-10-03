@@ -1,8 +1,13 @@
+import classNames from "classnames/bind";
 import { RoomInfo } from "../App";
-import "../App.module.scss";
+import styles from "./../App.module.scss";
 
 interface DialogInsertProps {
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>,
+  ) => void;
   handleClose: () => void;
   handleSubmit: () => void;
   roomInfo: RoomInfo;
@@ -11,13 +16,16 @@ interface DialogInsertProps {
 
 const DialogInsertRoomInfos = (props: DialogInsertProps) => {
   const { handleChange, roomInfo, error, handleClose, handleSubmit } = props;
+  const cn = classNames.bind(styles);
 
   return (
-    <div className="dialog-insert-roominfos">
-      <div className="dialog-content">
+    <div className={cn("dialog-insert-roominfos")}>
+      <div className={cn("dialog-content")}>
         <h2>입실 정보 입력</h2>
-        <div className="dialog-sub-content">
-          <span style={{ marginRight: "1rem" }}>방 번호</span>
+        <div className={cn("dialog-sub-content")}>
+          <span className={cn("fixed-span")} style={{ marginRight: "1rem" }}>
+            방 번호
+          </span>
           <input
             name="roomNumber"
             placeholder="방 번호"
@@ -25,8 +33,10 @@ const DialogInsertRoomInfos = (props: DialogInsertProps) => {
             onChange={handleChange}
           />
         </div>
-        <div className="dialog-sub-content">
-          <span style={{ marginRight: "1rem" }}>입실 인원</span>
+        <div className={cn("dialog-sub-content")}>
+          <span className={cn("fixed-span")} style={{ marginRight: "1rem" }}>
+            입실 인원
+          </span>
           <input
             name="occupants"
             type="number"
@@ -35,8 +45,10 @@ const DialogInsertRoomInfos = (props: DialogInsertProps) => {
             onChange={handleChange}
           />
         </div>
-        <div className="dialog-sub-content">
-          <span style={{ marginRight: "1rem" }}>입실 날짜</span>
+        <div className={cn("dialog-sub-content")}>
+          <span className={cn("fixed-span")} style={{ marginRight: "1rem" }}>
+            입실 날짜
+          </span>
           <input
             name="checkInDate"
             type="date"
@@ -44,8 +56,10 @@ const DialogInsertRoomInfos = (props: DialogInsertProps) => {
             onChange={handleChange}
           />
         </div>
-        <div className="dialog-sub-content">
-          <span style={{ marginRight: "1rem" }}>퇴실 날짜</span>
+        <div className={cn("dialog-sub-content")}>
+          <span className={cn("fixed-span")} style={{ marginRight: "1rem" }}>
+            퇴실 날짜
+          </span>
           <input
             name="checkOutDate"
             type="date"
@@ -53,18 +67,29 @@ const DialogInsertRoomInfos = (props: DialogInsertProps) => {
             onChange={handleChange}
           />
         </div>
-        <div className="dialog-sub-content">
-          <span style={{ marginRight: "1rem" }}>입금 날짜</span>
-          <input
-            name="paymentDate"
-            type="date"
-            value={roomInfo.paymentDate ?? ""}
-            onChange={handleChange}
-          />
+        <div className={cn("dialog-sub-content")}>
+          <span className={cn("fixed-span")} style={{ marginRight: "1rem" }}>
+            입금 날짜
+          </span>
+          <div className={cn("select-day")}>
+            <span style={{ marginRight: "1rem" }}>{"매달"}</span>
+            <select
+              name="paymentDate"
+              value={roomInfo.paymentDate}
+              onChange={handleChange}
+            >
+              {[...Array(31)].map((_, index) => (
+                <option key={index} value={index + 1}>
+                  {index + 1}
+                </option>
+              ))}
+            </select>
+            <span style={{ marginLeft: "0.1rem" }}>{` 일`}</span>
+          </div>
         </div>
 
-        {error && <p className="error-text">{error}</p>}
-        <div className="dialog-actions">
+        {error && <p className={cn("error-text")}>{error}</p>}
+        <div className={cn("dialog-actions")}>
           <button onClick={handleClose}>취소</button>
           <button onClick={handleSubmit}>추가</button>
         </div>

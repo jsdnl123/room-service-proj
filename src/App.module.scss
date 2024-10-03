@@ -3,14 +3,18 @@
   display: flex;
   flex-direction: column;
   text-align: center;
+  background-color: #33333a;
 }
 
-header {
+.header {
   display: flex;
   top: 0;
-  background-color: #fff;
-  padding: 10px 0;
+  background-color: #33333a;
+  color: #fff;
+  padding: 0.625rem 0.625rem;
   border-bottom: 1px solid #ddd;
+  justify-content: space-between; /* 양쪽 끝으로 정렬 */
+  align-items: center; /* 수직 정렬 */
 
   h1 {
     font-family: sans-serif;
@@ -21,8 +25,7 @@ header {
 .button-container {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 1rem;
-
+  gap: 0.625rem;
   .styled-button {
     background-color: #1976d2;
     color: #fff;
@@ -48,16 +51,34 @@ header {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
   .dialog-content {
-    display: flex;
-    flex-direction: column;
+    .dialog-sub-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .fixed-span {
+        width: 10rem; /* 고정 너비 */
+        white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 */
+        // overflow: hidden; /* 넘치는 텍스트 숨기기 */
+        // text-overflow: ellipsis; /* 넘치는 텍스트에 ... 표시 */
+      }
 
-    input {
-      margin: 0.5rem 0;
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      input {
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        flex-grow: 1; /* input이 남은 공간을 차지하도록 */
+      }
+      .select-day {
+        flex-grow: 1; /* input이 남은 공간을 차지하도록 */
+        select {
+          margin: 0.5rem 0;
+          padding: 0.5rem;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+      }
     }
-
     .error-text {
       color: red;
     }
