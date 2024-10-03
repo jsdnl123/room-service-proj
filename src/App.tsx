@@ -4,6 +4,7 @@ import DialogInsertRoomInfos from "./components/DialogInsertRoomInfos";
 import { hasEmptyValue } from "./utils";
 import { useRoomInfoStore } from "./store/stores/roomInfoStore";
 import classNames from "classnames/bind";
+import useDialogStore from "./store/stores/dialogStore";
 
 export interface RoomInfo {
   roomNumber: string;
@@ -15,9 +16,8 @@ export interface RoomInfo {
 
 const App: React.FC = () => {
   const cn = classNames.bind(styles);
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const { roomInfos, setRoomInfos } = useRoomInfoStore();
-  // const [roomInfos, setRoomInfos] = useState<RoomInfo[]>([]);
   const [roomInfo, setRoomInfo] = useState<RoomInfo>({
     roomNumber: "",
     occupants: 0,
@@ -26,10 +26,11 @@ const App: React.FC = () => {
     paymentDate: "",
   });
   const [error, setError] = useState("");
+  const { dialogs, openDialog, closeDialog } = useDialogStore();
 
-  const handleClickOpen = () => setOpen(true);
+  const handleClickOpen = () => openDialog("dialogInsertRoomInfos");
   const handleClose = () => {
-    setOpen(false);
+    closeDialog("dialogInsertRoomInfos");
     setError("");
   };
 
@@ -44,6 +45,13 @@ const App: React.FC = () => {
     });
   };
 
+  const handleDelete = (roomInfo: RoomInfo) => {
+    const filtered = roomInfos.filter(
+      (prev) => prev.roomNumber !== roomInfo.roomNumber,
+    );
+    setRoomInfos(filtered);
+  };
+
   const handleSubmit = () => {
     if (roomInfos.some((room) => room.roomNumber === roomInfo.roomNumber)) {
       setError("방 번호가 이미 존재합니다.");
@@ -55,7 +63,7 @@ const App: React.FC = () => {
     }
 
     setRoomInfos([...roomInfos, roomInfo]);
-    setOpen(false);
+    closeDialog("dialogInsertRoomInfos");
     setRoomInfo({
       roomNumber: "",
       occupants: 0,
@@ -84,7 +92,7 @@ const App: React.FC = () => {
           </button> */}
         </div>
       </div>
-      {open && (
+      {dialogs.dialogInsertRoomInfos && (
         <DialogInsertRoomInfos
           error={error}
           handleChange={handleChange}
@@ -106,9 +114,9 @@ const App: React.FC = () => {
             <p>입실 인원: {roomInfo.occupants}</p>
             <p>입실 날짜: {roomInfo.checkInDate}</p>
             <p>퇴실 날짜: {roomInfo.checkOutDate}</p>
-            <p>입금 날짜: {roomInfo.paymentDate}</p>
+            <p>입금 날짜: {`${roomInfo.paymentDate}일`}</p>
             <button>수정</button>
-            <button>삭제</button>
+            <button onClick={() => handleDelete(roomInfo)}>삭제</button>
           </div>
         ))}
       </div>
