@@ -1,6 +1,10 @@
 import classNames from "classnames/bind";
 import { RoomInfo } from "../App";
 import styles from "./../App.module.scss";
+import { useState } from "react";
+import { hasEmptyValue } from "../utils";
+import useDialogStore from "../store/stores/dialogStore";
+import { useRoomInfoStore } from "../store/stores/roomInfoStore";
 
 interface DialogInsertProps {
   handleChange: (
@@ -15,8 +19,51 @@ interface DialogInsertProps {
 }
 
 const DialogInsertRoomInfos = (props: DialogInsertProps) => {
-  const { handleChange, roomInfo, error, handleClose, handleSubmit } = props;
   const cn = classNames.bind(styles);
+  const { roomInfos, setRoomInfos } = useRoomInfoStore();
+  const { openDialog, closeDialog } = useDialogStore();
+  const [roomInfo, setRoomInfo] = useState<RoomInfo>({
+    roomNumber: "",
+    occupants: 0,
+    checkInDate: "",
+    checkOutDate: "",
+    paymentDate: "1",
+  });
+  const [error, setError] = useState("");
+
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setRoomInfo({
+      ...roomInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleClose = () => {
+    closeDialog("dialogInsertRoomInfos");
+  };
+  const handleSubmit = () => {
+    if (roomInfos.some((room) => room.roomNumber === roomInfo.roomNumber)) {
+      setError("방 번호가 이미 존재합니다.");
+      return;
+    }
+    if (hasEmptyValue(roomInfo)) {
+      setError("빈 값이 존재합니다!");
+      return;
+    }
+
+    setRoomInfos([...roomInfos, roomInfo]);
+    closeDialog("dialogInsertRoomInfos");
+    setRoomInfo({
+      roomNumber: "",
+      occupants: 0,
+      checkInDate: "",
+      checkOutDate: "",
+    });
+    setError("");
+  };
 
   return (
     <div className={cn("dialog-insert-roominfos")}>
